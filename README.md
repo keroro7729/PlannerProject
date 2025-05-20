@@ -9,8 +9,8 @@
 |  일정 생성   |  POST  |     /api/plans      | CreatePlanRequestDto  |   PlanResponseDto   |  201(created)   |
 | 전체 일정 조회 |  GET   |     /api/plans      | GetPlanListRequestDto | PlanListResponseDto |     200(ok)     |
 | 선택 일정 조회 |  GET   | /api/plans/{planId} |           -           |   PlanResponseDto   |     200(ok)     |
-|  일정 수정   | PATCH  | /api/plans/{planId} |   UpdatePlanRequest   |   PlanResponseDto   |     200(ok)     |
-|  일정 삭제   | DELETE | /api/plans/{planId} |   DeletePlanRequest   |          -          | 204(no-content) |
+|  일정 수정   | PATCH  | /api/plans/{planId} | UpdatePlanRequestDto  |   PlanResponseDto   |     200(ok)     |
+|  일정 삭제   | DELETE | /api/plans/{planId} | DeletePlanRequestDto  |          -          | 204(no-content) |
 
 ---
 
