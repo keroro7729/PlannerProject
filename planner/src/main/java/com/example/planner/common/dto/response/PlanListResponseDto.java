@@ -1,20 +1,18 @@
 package com.example.planner.common.dto.response;
 
 import com.example.planner.plan.Plan;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class PlanListDto {
-    private List<PlanDto> plans;
+public class PlanListResponseDto {
+    private List<PlanResponseDto> plans;
 
-    public PlanListDto(List<Plan> list) {
+    public PlanListResponseDto(List<Plan> list) {
         this.plans = list.stream()
-                .map(PlanDto::new)
+                .map(PlanResponseDto::new)
                 .collect(Collectors.toList());
     }
 }
