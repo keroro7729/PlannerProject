@@ -1,6 +1,6 @@
 package com.example.planner.common.dto.response;
 
-import com.example.planner.plan.Plan;
+import com.example.planner.database.plan.Plan;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 public class PlanResponseDto {
     private Long planId;
     private String planText;
-    private String userName;
+    private Boolean anonymity;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public PlanResponseDto(Plan plan) {
         planId = plan.getPlanId();
         planText = plan.getPlanText();
-        userName = plan.getUserName();
+        anonymity = plan.getAnonymity();
         createdAt = plan.getCreatedAt();
         updatedAt = plan.getUpdatedAt();
     }

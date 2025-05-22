@@ -1,0 +1,19 @@
+package com.example.planner.common.dto.response;
+
+import com.example.planner.database.user.User;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class UserResponseDto {
+    private Long userId;
+    private String userName;
+    private String email;
+
+    public UserResponseDto(User user) {
+        userId = user.getUserId();
+        userName = user.getUserName();
+        email = user.getEmail();
+    }
+}

@@ -1,4 +1,4 @@
-package com.example.planner.plan;
+package com.example.planner.controller;
 
 import com.example.planner.common.dto.request.CreatePlanRequestDto;
 import com.example.planner.common.dto.request.DeletePlanRequestDto;
@@ -6,6 +6,7 @@ import com.example.planner.common.dto.request.GetPlanListRequestDto;
 import com.example.planner.common.dto.request.UpdatePlanRequestDto;
 import com.example.planner.common.dto.response.PlanResponseDto;
 import com.example.planner.common.dto.response.PlanListResponseDto;
+import com.example.planner.database.plan.PlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class PlanController {
 
     private final PlanService service;
 
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<PlanResponseDto> create(@RequestBody CreatePlanRequestDto request) {
         PlanResponseDto created = service.create(request);
         URI location = URI.create("/api/plans/"+created.getPlanId());
@@ -47,5 +48,5 @@ public class PlanController {
                                        @RequestBody DeletePlanRequestDto request) {
         service.delete(planId, request);
         return ResponseEntity.noContent().build();
-    }
+    }*/
 }

@@ -1,6 +1,6 @@
 package com.example.planner.common.dto.response;
 
-import com.example.planner.plan.Plan;
+import com.example.planner.database.plan.Plan;
 import lombok.Getter;
 
 import java.util.List;

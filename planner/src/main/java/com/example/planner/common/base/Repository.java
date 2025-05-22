@@ -11,7 +11,7 @@ public interface Repository<T> {
 
     List<T> findAll();
 
-    Optional<T> update(Long id, T object);
+    Optional<T> update(T object);
 
     Boolean delete(Long id);
 }
