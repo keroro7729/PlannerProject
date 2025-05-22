@@ -14,6 +14,7 @@ public class Plan extends Entity {
 
     private String planText;
     private String userName;
+
     private String password;
 
     // copy constructor
@@ -36,6 +37,12 @@ public class Plan extends Entity {
 
     public void update(String planText) {
         this.planText = planText;
+        super.update();
+    }
+
+    public void update(String planText, String userName) {
+        this.planText = planText;
+        this.userName = userName;
         super.update();
     }
 }

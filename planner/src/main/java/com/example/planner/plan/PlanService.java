@@ -1,7 +1,9 @@
 package com.example.planner.plan;
 
 import com.example.planner.common.dto.request.CreatePlanRequestDto;
+import com.example.planner.common.dto.request.DeletePlanRequestDto;
 import com.example.planner.common.dto.request.GetPlanListRequestDto;
+import com.example.planner.common.dto.request.UpdatePlanRequestDto;
 import com.example.planner.common.dto.response.PlanResponseDto;
 import com.example.planner.common.dto.response.PlanListResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +42,26 @@ public class PlanService {
                 request.getTo()
         );
         return new PlanListResponseDto(result);
+    }
+
+    public PlanResponseDto update(Long planId, UpdatePlanRequestDto request) {
+        Plan plan = repository.findById(planId)
+                .orElseThrow(() -> new RuntimeException("plan not found: "+planId));
+        if(!plan.getPassword().equals(request.getPassword())) {
+            throw new RuntimeException("access denied: wrong password");
+        }
+        plan.setUserName(request.getUserName());
+        plan.update(plan.getPlanText());
+        repository.update(planId, plan);
+        return new PlanResponseDto(plan);
+    }
+
+    public void delete(Long planId, DeletePlanRequestDto request) {
+        Plan plan = repository.findById(planId)
+                .orElseThrow(() -> new RuntimeException("plan not found: "+planId));
+        if(!plan.getPassword().equals(request.getPassword())) {
+            throw new RuntimeException("access denied: wrong password");
+        }
+        repository.delete(planId);
     }
 }
