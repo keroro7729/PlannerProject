@@ -2,6 +2,7 @@ package com.example.planner.database.plan;
 
 import com.example.planner.common.base.Repository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -66,14 +67,26 @@ public class PlanRepository implements Repository<Plan> {
 
     // custom query
 
-    public List<Plan> findAllByAnonymity(Boolean anonymity) {
-        String sql = "SELECT * FROM plans WHERE anonymity = ?";
-        return jdbc.query(sql, planRowMapper, anonymity);
+    public List<Plan> findAllByAnonymityFalse(int limit, int offset) {
+        String sql = "SELECT * FROM plans WHERE anonymity = false ORDER BY updated_at LIMIT ? OFFSET ?";
+        return jdbc.query(sql, planRowMapper, limit, offset);
     }
 
-    public List<Plan> findAllByUserId(Long userId) {
-        String sql = "SELECT * FROM plans WHERE user_id = ?";
-        return jdbc.query(sql, planRowMapper, userId);
+    public long countByAnonymityFalse() {
+        String sql = "SELECT count(*) FROM plans WHERE anonymity = false";
+        Integer result = jdbc.queryForObject(sql, Integer.class);
+        return result == null ? 0 : result.longValue();
+    }
+
+    public List<Plan> findAllByUserId(Long userId, int limit, int offset) {
+        String sql = "SELECT * FROM plans WHERE user_id = ? ORDER BY updated_at LIMIT ? OFFSET ?";
+        return jdbc.query(sql, planRowMapper, userId, limit, offset);
+    }
+
+    public long countByUserId(Long userId) {
+        String sql = "SELECT count(*) FROM plans WHERE user_id = ?";
+        Integer result = jdbc.queryForObject(sql, Integer.class, userId);
+        return result == null ? 0 : result.longValue();
     }
 
     private final RowMapper<Plan> planRowMapper = (rs, rowNum) ->

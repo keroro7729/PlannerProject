@@ -2,11 +2,9 @@ package com.example.planner.database.plan;
 
 import com.example.planner.common.dto.request.CreatePlanRequestDto;
 import com.example.planner.common.dto.request.DeletePlanRequestDto;
-import com.example.planner.common.dto.request.GetPlanListRequestDto;
 import com.example.planner.common.dto.request.UpdatePlanRequestDto;
+import com.example.planner.common.dto.response.PageResponseDto;
 import com.example.planner.common.dto.response.PlanResponseDto;
-import com.example.planner.common.dto.response.PlanListResponseDto;
-import com.example.planner.database.user.User;
 import com.example.planner.database.user.UserService;
 import com.example.planner.utils.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,13 +29,25 @@ public class PlanService {
         return new PlanResponseDto(plan);
     }
 
-    public PlanListResponseDto viewAllPlans() {
-        return new PlanListResponseDto(repository.findAllByAnonymity(false));
+    public PageResponseDto<PlanResponseDto> viewAllPlans(int page, int size) {
+        int limit = size, offset = page * size;
+        List<PlanResponseDto> items =
+                repository.findAllByAnonymityFalse(limit, offset)
+                .stream()
+                .map(PlanResponseDto::new)
+                .toList();
+        return new PageResponseDto<PlanResponseDto>(items, page, size, repository.countByAnonymityFalse());
     }
 
-    public PlanListResponseDto viewUsersPlans(HttpServletRequest request) {
+    public PageResponseDto<PlanResponseDto> viewUsersPlans(int page, int size, HttpServletRequest request) {
         Long userId = SessionUtil.getUserId(request);
-        return new PlanListResponseDto(repository.findAllByUserId(userId));
+        int limit = size, offset = page * size;
+        List<PlanResponseDto> items =
+                repository.findAllByUserId(userId, limit, offset)
+                        .stream()
+                        .map(PlanResponseDto::new)
+                        .toList();
+        return new PageResponseDto<PlanResponseDto>(items, page, size, repository.countByUserId(userId));
     }
 
     public PlanResponseDto viewPlan(Long planId, HttpServletRequest request) {

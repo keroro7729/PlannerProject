@@ -2,10 +2,9 @@ package com.example.planner.controller;
 
 import com.example.planner.common.dto.request.CreatePlanRequestDto;
 import com.example.planner.common.dto.request.DeletePlanRequestDto;
-import com.example.planner.common.dto.request.GetPlanListRequestDto;
 import com.example.planner.common.dto.request.UpdatePlanRequestDto;
+import com.example.planner.common.dto.response.PageResponseDto;
 import com.example.planner.common.dto.response.PlanResponseDto;
-import com.example.planner.common.dto.response.PlanListResponseDto;
 import com.example.planner.database.plan.PlanService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +29,16 @@ public class PlanController {
     }
 
     @GetMapping
-    public ResponseEntity<PlanListResponseDto> viewAllPlans() {
-        return ResponseEntity.ok(service.viewAllPlans());
+    public ResponseEntity<PageResponseDto<PlanResponseDto>> viewAllPlans(@RequestParam(defaultValue = "0") int page,
+                                                                         @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(service.viewAllPlans(page, size));
     }
 
     @GetMapping("/me")
-    public ResponseEntity<PlanListResponseDto> view(HttpServletRequest request) {
-        return ResponseEntity.ok(service.viewUsersPlans(request));
+    public ResponseEntity<PageResponseDto<PlanResponseDto>> view(@RequestParam(defaultValue = "0") int page,
+                                                                 @RequestParam(defaultValue = "10") int size,
+                                                                 HttpServletRequest request) {
+        return ResponseEntity.ok(service.viewUsersPlans(page, size, request));
     }
 
     @GetMapping("/{planId}")
