@@ -4,20 +4,20 @@
 
 ## API 명세서
 
-|      기능      | Method |         URL         |         request         |      response       |      상태코드       |
-|:------------:|:------:|:-------------------:|:-----------------------:|:-------------------:|:---------------:|
-| 사용자 생성(회원가입) |  POST  | /api/users/register |  CreateUserRequestDto   | RegisterResponseDto |     200(ok)     |
-|     로그인      |  POST  |  /api/users/login   |     LoginRequestDto     |          -          | 204(no-content) |
-|     로그아웃     |  POST  |  /api/users/logout  |            -            |          -          | 204(no-content) |
-| 본인 사용자 정보 조회 |  GET   |     /api/users      |   세션 활용, 로그인된 사용자 식별    |   UserResponseDto   |     200(ok)     |
-|  사용자 정보 변경   | PATCH  |     /api/users      |  UpdateUserRequestDto   |   UserResponseDto   |     200(ok)     |
-|  사용자 삭제(탈퇴)  | DELETE |      api/users      |  DeleteUserRequestDto   |          -          | 204(no-content) |
-|    일정 생성     |  POST  |     /api/plans      |  CreatePlanRequestDto   |   PlanResponseDto   |  201(created)   |
-|   전체 일정 조회   |  GET   |     /api/plans      |            -            | PlanListResponseDto |     200(ok)     |
-| 특정 사용자 일정 조회 |  GET   |     /api/plans      | UsersPlanListRequestDto | PlanListResponseDto |     200(ok)     |
-|   선택 일정 조회   |  GET   | /api/plans/{planId} |            -            |   PlanResponseDto   |     200(ok)     |
-|    일정 수정     | PATCH  | /api/plans/{planId} |  UpdatePlanRequestDto   |   PlanResponseDto   |     200(ok)     |
-|    일정 삭제     | DELETE | /api/plans/{planId} |  DeletePlanRequestDto   |          -          | 204(no-content) |
+|      기능      | Method |         URL         |       request        |      response       |      상태코드       |
+|:------------:|:------:|:-------------------:|:--------------------:|:-------------------:|:---------------:|
+| 사용자 생성(회원가입) |  POST  | /api/users/register | CreateUserRequestDto | RegisterResponseDto |     200(ok)     |
+|     로그인      |  POST  |  /api/users/login   |   LoginRequestDto    |          -          | 204(no-content) |
+|     로그아웃     |  POST  |  /api/users/logout  |          -           |          -          | 204(no-content) |
+| 본인 사용자 정보 조회 |  GET   |     /api/users      |  세션 활용, 로그인된 사용자 식별  |   UserResponseDto   |     200(ok)     |
+|  사용자 정보 변경   | PATCH  |     /api/users      | UpdateUserRequestDto |   UserResponseDto   |     200(ok)     |
+|  사용자 삭제(탈퇴)  | DELETE |      api/users      | DeleteUserRequestDto |          -          | 204(no-content) |
+|    일정 생성     |  POST  |     /api/plans      | CreatePlanRequestDto |   PlanResponseDto   |  201(created)   |
+|   전체 일정 조회   |  GET   |     /api/plans      |          -           | PlanListResponseDto |     200(ok)     |
+| 특정 사용자 일정 조회 |  GET   |    /api/plans/me    |          -           | PlanListResponseDto |     200(ok)     |
+|   선택 일정 조회   |  GET   | /api/plans/{planId} |          -           |   PlanResponseDto   |     200(ok)     |
+|    일정 수정     | PATCH  | /api/plans/{planId} | UpdatePlanRequestDto |   PlanResponseDto   |     200(ok)     |
+|    일정 삭제     | DELETE | /api/plans/{planId} | DeletePlanRequestDto |          -          | 204(no-content) |
 
 ---
 

@@ -65,7 +65,16 @@ public class PlanRepository implements Repository<Plan> {
     }
 
     // custom query
-    //
+
+    public List<Plan> findAllByAnonymity(Boolean anonymity) {
+        String sql = "SELECT * FROM plans WHERE anonymity = ?";
+        return jdbc.query(sql, planRowMapper, anonymity);
+    }
+
+    public List<Plan> findAllByUserId(Long userId) {
+        String sql = "SELECT * FROM plans WHERE user_id = ?";
+        return jdbc.query(sql, planRowMapper, userId);
+    }
 
     private final RowMapper<Plan> planRowMapper = (rs, rowNum) ->
             new Plan(

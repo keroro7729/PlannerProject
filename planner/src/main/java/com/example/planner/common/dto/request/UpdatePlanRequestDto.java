@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class UpdatePlanRequestDto {
     private String planText;
-    private String userName;
+    private Boolean anonymity;
     private String password;
 }

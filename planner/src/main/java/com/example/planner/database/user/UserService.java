@@ -41,6 +41,11 @@ public class UserService {
         SessionUtil.setUserId(request, userId);
     }
 
+    public void checkPassword(Long userId, String password) {
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("user not found: "+userId));
+        checkPassword(user.getPassword(), password);
+    }
     private void checkPassword(String password, String input) {
         if(!password.equals(input)) {
             throw new RuntimeException("password not match: "+input);

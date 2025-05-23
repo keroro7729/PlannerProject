@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public class CreatePlanRequestDto {
     private String planText;
-    private String userName;
+    private Boolean anonymity;
     private String password;
 }
