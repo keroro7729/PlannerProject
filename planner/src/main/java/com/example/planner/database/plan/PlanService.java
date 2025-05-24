@@ -5,6 +5,8 @@ import com.example.planner.common.dto.request.DeletePlanRequestDto;
 import com.example.planner.common.dto.request.UpdatePlanRequestDto;
 import com.example.planner.common.dto.response.PageResponseDto;
 import com.example.planner.common.dto.response.PlanResponseDto;
+import com.example.planner.common.exceptions.AccessDeniedException;
+import com.example.planner.common.exceptions.ResourceNotFoundException;
 import com.example.planner.database.user.UserService;
 import com.example.planner.utils.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -58,9 +60,9 @@ public class PlanService {
     public PlanResponseDto viewPlan(Long planId, HttpServletRequest request) {
         Long userId = SessionUtil.getUserId(request);
         Plan plan = repository.findById(planId)
-                .orElseThrow(() -> new RuntimeException("plan not found: "+planId));
+                .orElseThrow(() -> new ResourceNotFoundException("plan", planId));
         if(!plan.getUserId().equals(userId))
-            throw new RuntimeException("access denied: planId="+planId+", requested-user="+userId);
+            throw new AccessDeniedException("plan", planId, userId);
         PlanResponseDto response = new PlanResponseDto(plan);
         response.setUserName(userService.getUserName(userId));
         return response;
@@ -69,9 +71,9 @@ public class PlanService {
     public PlanResponseDto updatePlan(Long planId, UpdatePlanRequestDto body, HttpServletRequest request) {
         Long userId = SessionUtil.getUserId(request);
         Plan plan = repository.findById(planId)
-                .orElseThrow(() -> new RuntimeException("plan not found: "+planId));
+                .orElseThrow(() -> new ResourceNotFoundException("plan", planId));
         if(!plan.getUserId().equals(userId))
-            throw new RuntimeException("access denied: planId="+planId+", requested-user="+userId);
+            throw new AccessDeniedException("plan", planId, userId);
         userService.checkPassword(plan.getUserId(), body.getPassword());
 
         String planText = body.getPlanText() != null ? body.getPlanText() : plan.getPlanText();
@@ -86,9 +88,9 @@ public class PlanService {
     public void deletePlan(Long planId, DeletePlanRequestDto body, HttpServletRequest request) {
         Long userId = SessionUtil.getUserId(request);
         Plan plan = repository.findById(planId)
-                .orElseThrow(() -> new RuntimeException("plan not found: "+planId));
+                .orElseThrow(() -> new ResourceNotFoundException("plan", planId));
         if(!plan.getUserId().equals(userId))
-            throw new RuntimeException("access denied: planId="+planId+", requested-user="+userId);
+            throw new AccessDeniedException("plan", planId, userId);
         userService.checkPassword(plan.getUserId(), body.getPassword());
         repository.delete(planId);
     }

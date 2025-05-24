@@ -6,9 +6,10 @@ import com.example.planner.common.dto.request.LoginRequestDto;
 import com.example.planner.common.dto.request.UpdateUserRequestDto;
 import com.example.planner.common.dto.response.RegisterResponseDto;
 import com.example.planner.common.dto.response.UserResponseDto;
+import com.example.planner.common.exceptions.LoginFailedException;
+import com.example.planner.common.exceptions.ResourceNotFoundException;
 import com.example.planner.utils.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,38 +32,38 @@ public class UserService {
 
     public void login(LoginRequestDto body, HttpServletRequest request) {
         User user = repository.findByEmail(body.getEmail())
-                .orElseThrow(() -> new RuntimeException("email not found: "+body.getEmail()));
+                .orElseThrow(() -> new LoginFailedException(body.getEmail()));
         checkPassword(user.getPassword(), body.getPassword());
         login(user.getUserId(), request);
     }
 
     private void login(Long userId, HttpServletRequest request) {
-        HttpSession session = request.getSession();
+        request.getSession();
         SessionUtil.setUserId(request, userId);
     }
 
     public void checkPassword(Long userId, String password) {
         User user = repository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("user not found: "+userId));
+                .orElseThrow(() -> new ResourceNotFoundException("user", userId));
         checkPassword(user.getPassword(), password);
     }
     private void checkPassword(String password, String input) {
         if(!password.equals(input)) {
-            throw new RuntimeException("password not match: "+input);
+            throw new LoginFailedException();
         }
     }
 
     public UserResponseDto getCurrentUser(HttpServletRequest request) {
         Long userId = SessionUtil.getUserId(request);
         User user = repository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("user not found: "+userId));
+                .orElseThrow(() -> new ResourceNotFoundException("user", userId));
         return new UserResponseDto(user);
     }
 
     public UserResponseDto updateCurrentUser(UpdateUserRequestDto body, HttpServletRequest request) {
         Long userId = SessionUtil.getUserId(request);
         User user = repository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("user not found: "+userId));
+                .orElseThrow(() -> new ResourceNotFoundException("user", userId));
         checkPassword(user.getPassword(), body.getOldPassword());
 
         String userName = body.getUserName() == null ? user.getUserName() : body.getUserName();
@@ -75,14 +76,14 @@ public class UserService {
     public void deleteCurrentUser(DeleteUserRequestDto body, HttpServletRequest request) {
         Long userId = SessionUtil.getUserId(request);
         User user = repository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("user not found: "+userId));
+                .orElseThrow(() -> new ResourceNotFoundException("user", userId));
         checkPassword(user.getPassword(), body.getPassword());
         repository.delete(userId);
     }
 
     public String getUserName(Long userId) {
         User user = repository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("user not found: "+userId));
+                .orElseThrow(() -> new ResourceNotFoundException("user", userId));
         return user.getUserName();
     }
 }

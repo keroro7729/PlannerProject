@@ -45,7 +45,18 @@
 | created_at |  datetime   |          NOT NULL           | 생성 시각  |
 | updated_at |  datetime   |          NOT NULL           | 수정 시각  |
 
-[다이어그램 링크](https://dbdiagram.io/d/682f7792b9f7446da3bf79e4)
+**Delete Log table**
+
+|     컬럼명     |     자료형     |            제약조건             |     설명      |
+|:-----------:|:-----------:|:---------------------------:|:-----------:|
+|   log_id    |   bigint    | PRIMARY KEY, AUTO_INCREMENT |    로그 ID    |
+| entity_name | varchar(50) |          NOT NULL           | 삭제된 엔티티 이름  |
+|  entity_id  |   bigint    |          NOT NULL           | 삭제된 엔티티의 ID |
+| created_at  |  datetime   |          NOT NULL           |    생성 시각    |
+| updated_at  |  datetime   |          NOT NULL           |    수정 시각    |
+
+
+[다이어그램 링크](https://dbdiagram.io/d/68315f2eb9f7446da3f1ae3c)
 
 [schedule.sql](schedule.sql)
 ---
