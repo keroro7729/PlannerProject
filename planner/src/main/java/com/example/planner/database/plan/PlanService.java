@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,16 +27,19 @@ public class PlanService {
         userService.checkPassword(userId, body.getPassword());
         Plan plan = new Plan(body.getPlanText(), body.getAnonymity(), userId);
         plan = repository.save(plan);
-        return new PlanResponseDto(plan);
+        PlanResponseDto response = new PlanResponseDto(plan);
+        response.setUserName(userService.getUserName(userId));
+        return response;
     }
 
     public PageResponseDto<PlanResponseDto> viewAllPlans(int page, int size) {
         int limit = size, offset = page * size;
-        List<PlanResponseDto> items =
-                repository.findAllByAnonymityFalse(limit, offset)
-                .stream()
-                .map(PlanResponseDto::new)
-                .toList();
+        List<PlanResponseDto> items = new ArrayList<>();
+        for(Plan plan : repository.findAllByAnonymityFalse(limit, offset)) {
+            items.add(new PlanResponseDto(plan));
+            items.get(items.size() - 1)
+                    .setUserName(userService.getUserName(plan.getUserId()));
+        }
         return new PageResponseDto<PlanResponseDto>(items, page, size, repository.countByAnonymityFalse());
     }
 
@@ -47,6 +51,7 @@ public class PlanService {
                         .stream()
                         .map(PlanResponseDto::new)
                         .toList();
+        items.forEach(o -> o.setUserName(userService.getUserName(userId)));
         return new PageResponseDto<PlanResponseDto>(items, page, size, repository.countByUserId(userId));
     }
 
@@ -56,7 +61,9 @@ public class PlanService {
                 .orElseThrow(() -> new RuntimeException("plan not found: "+planId));
         if(!plan.getUserId().equals(userId))
             throw new RuntimeException("access denied: planId="+planId+", requested-user="+userId);
-        return new PlanResponseDto(plan);
+        PlanResponseDto response = new PlanResponseDto(plan);
+        response.setUserName(userService.getUserName(userId));
+        return response;
     }
 
     public PlanResponseDto updatePlan(Long planId, UpdatePlanRequestDto body, HttpServletRequest request) {
@@ -71,7 +78,9 @@ public class PlanService {
         Boolean anonymity = body.getAnonymity() != null ? body.getAnonymity() : plan.getAnonymity();
         plan.update(planText, anonymity);
         repository.update(plan);
-        return new PlanResponseDto(plan);
+        PlanResponseDto response = new PlanResponseDto(plan);
+        response.setUserName(userService.getUserName(userId));
+        return response;
     }
 
     public void deletePlan(Long planId, DeletePlanRequestDto body, HttpServletRequest request) {

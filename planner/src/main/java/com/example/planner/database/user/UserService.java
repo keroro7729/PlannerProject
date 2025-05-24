@@ -79,4 +79,10 @@ public class UserService {
         checkPassword(user.getPassword(), body.getPassword());
         repository.delete(userId);
     }
+
+    public String getUserName(Long userId) {
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("user not found: "+userId));
+        return user.getUserName();
+    }
 }
