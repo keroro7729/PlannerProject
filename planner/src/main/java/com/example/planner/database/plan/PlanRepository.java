@@ -28,7 +28,9 @@ public class PlanRepository implements Repository<Plan> {
 
         Map<String, Object> params = new HashMap<>();
         params.put("plan_text", plan.getPlanText());
-        params.put("anonymity", plan.getAnonymity());
+        // null이 전달되면 default 제약조건 true가 아닌 false가 들어간다..
+        boolean anonymity = plan.getAnonymity() == null ? true : plan.getAnonymity();
+        params.put("anonymity", anonymity);
         params.put("created_at", plan.getCreatedAt());
         params.put("updated_at", plan.getUpdatedAt());
         params.put("user_id", plan.getUserId());
@@ -36,6 +38,11 @@ public class PlanRepository implements Repository<Plan> {
         // 여기서 에러!! 리턴 Number to Long에서 오류
         Number id = insert.executeAndReturnKey(new MapSqlParameterSource(params));
         plan.setPlanId(id.longValue());
+        // anonymity default value도 여기서 넣어줘야 함
+        // db에서는 제약조건으로 기본 default가 설정되었지만
+        // plan 객체에는 null이 들어가있는 상태
+        if(plan.getAnonymity() == null)
+            plan.setAnonymity(true);
         return plan;
     }
 

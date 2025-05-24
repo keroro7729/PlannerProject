@@ -23,7 +23,7 @@ CREATE TABLE delete_log(
 	entity_id BIGINT NOT NULL,
 	created_at DATETIME NOT NULL,
 	updated_at DATETIME NOT NULL,
-	CONSTRAINT unique_name_id UNIQUE(entity_name, entity_id);
+	CONSTRAINT unique_name_id UNIQUE (entity_name, entity_id)
 );
 
 CREATE INDEX idx_plans_anonymity ON plans(anonymity, updated_at);

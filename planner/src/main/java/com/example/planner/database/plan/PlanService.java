@@ -7,6 +7,8 @@ import com.example.planner.common.dto.response.PageResponseDto;
 import com.example.planner.common.dto.response.PlanResponseDto;
 import com.example.planner.common.exceptions.AccessDeniedException;
 import com.example.planner.common.exceptions.ResourceNotFoundException;
+import com.example.planner.database.deletelog.DeleteLog;
+import com.example.planner.database.deletelog.DeleteLogRepository;
 import com.example.planner.database.user.UserService;
 import com.example.planner.utils.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +25,7 @@ public class PlanService {
 
     private final PlanRepository repository;
     private final UserService userService;
+    private final DeleteLogRepository deleteLogRepository;
 
     public PlanResponseDto createPlan(CreatePlanRequestDto body, HttpServletRequest request) {
         Long userId = SessionUtil.getUserId(request);
@@ -93,5 +96,6 @@ public class PlanService {
             throw new AccessDeniedException("plan", planId, userId);
         userService.checkPassword(plan.getUserId(), body.getPassword());
         repository.delete(planId);
+        deleteLogRepository.save(new DeleteLog("plan", planId));
     }
 }

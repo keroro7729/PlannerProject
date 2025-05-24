@@ -8,6 +8,8 @@ import com.example.planner.common.dto.response.RegisterResponseDto;
 import com.example.planner.common.dto.response.UserResponseDto;
 import com.example.planner.common.exceptions.LoginFailedException;
 import com.example.planner.common.exceptions.ResourceNotFoundException;
+import com.example.planner.database.deletelog.DeleteLog;
+import com.example.planner.database.deletelog.DeleteLogRepository;
 import com.example.planner.utils.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository repository;
+    private final DeleteLogRepository deleteLogRepository;
 
     public RegisterResponseDto register(CreateUserRequestDto body) {
         if(repository.findByEmail(body.getEmail()).isPresent()) {
@@ -79,6 +82,7 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("user", userId));
         checkPassword(user.getPassword(), body.getPassword());
         repository.delete(userId);
+        deleteLogRepository.save(new DeleteLog("user", userId));
     }
 
     public String getUserName(Long userId) {

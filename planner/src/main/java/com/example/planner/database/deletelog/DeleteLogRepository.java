@@ -62,7 +62,7 @@ public class DeleteLogRepository implements Repository<DeleteLog> {
     }
 
     public Optional<DeleteLog> findByNameId(String name, Long id) {
-        String sql = "SELECT FROM delete_log WHERE entity_name = ? AND entity_id = ?";
+        String sql = "SELECT * FROM delete_log WHERE entity_name = ? AND entity_id = ?";
         List<DeleteLog> result =  jdbc.query(sql, logRowMapper, name, id);
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }

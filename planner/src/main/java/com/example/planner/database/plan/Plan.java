@@ -14,6 +14,7 @@ public class Plan extends Entity {
 
     private String planText;
 
+    @Setter
     private Boolean anonymity;
 
     private Long userId; //fk
