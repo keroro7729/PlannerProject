@@ -7,6 +7,7 @@ import com.example.planner.common.dto.response.PageResponseDto;
 import com.example.planner.common.dto.response.PlanResponseDto;
 import com.example.planner.database.plan.PlanService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class PlanController {
     private final PlanService service;
 
     @PostMapping
-    public ResponseEntity<PlanResponseDto> create(@RequestBody CreatePlanRequestDto body,
+    public ResponseEntity<PlanResponseDto> create(@RequestBody @Valid CreatePlanRequestDto body,
                                                   HttpServletRequest request) {
         PlanResponseDto created = service.createPlan(body, request);
         URI location = URI.create("/api/plans/"+created.getPlanId());
@@ -49,14 +50,14 @@ public class PlanController {
 
     @PatchMapping("/{planId}")
     public ResponseEntity<PlanResponseDto> update(@PathVariable Long planId,
-                                                  @RequestBody UpdatePlanRequestDto body,
+                                                  @RequestBody @Valid UpdatePlanRequestDto body,
                                                   HttpServletRequest request) {
         return ResponseEntity.ok(service.updatePlan(planId, body, request));
     }
 
     @DeleteMapping("/{planId}")
     public ResponseEntity<Void> delete(@PathVariable Long planId,
-                                       @RequestBody DeletePlanRequestDto body,
+                                       @RequestBody @Valid DeletePlanRequestDto body,
                                        HttpServletRequest request) {
         service.deletePlan(planId, body, request);
         return ResponseEntity.noContent().build();

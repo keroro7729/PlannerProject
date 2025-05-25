@@ -1,5 +1,6 @@
 package com.example.planner.common.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter // setter 필요함!! RequestBody와 ModelAttribute의 매핑방식 차이
 @ToString
 public class GetPlanListRequestDto {
+    @NotBlank(message = "userName 필수")
     private String userName;
 
     // String to LocalDateTime format 지정을 안해줬었음
