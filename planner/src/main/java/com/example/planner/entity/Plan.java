@@ -1,4 +1,4 @@
-package com.example.planner.database.plan;
+package com.example.planner.entity;
 
 import com.example.planner.common.base.Entity;
 import lombok.*;

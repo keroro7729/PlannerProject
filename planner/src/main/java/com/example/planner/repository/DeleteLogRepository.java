@@ -1,9 +1,8 @@
-package com.example.planner.database.deletelog;
+package com.example.planner.repository;
 
 import com.example.planner.common.base.Repository;
-import com.example.planner.database.plan.Plan;
+import com.example.planner.entity.DeleteLog;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.SQLWarningException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

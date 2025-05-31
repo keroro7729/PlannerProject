@@ -1,6 +1,6 @@
 package com.example.planner.common.dto.response;
 
-import com.example.planner.database.plan.Plan;
+import com.example.planner.entity.Plan;
 import lombok.Getter;
 import lombok.Setter;
 

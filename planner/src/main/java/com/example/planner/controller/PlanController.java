@@ -5,7 +5,7 @@ import com.example.planner.common.dto.request.DeletePlanRequestDto;
 import com.example.planner.common.dto.request.UpdatePlanRequestDto;
 import com.example.planner.common.dto.response.PageResponseDto;
 import com.example.planner.common.dto.response.PlanResponseDto;
-import com.example.planner.database.plan.PlanService;
+import com.example.planner.service.PlanService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

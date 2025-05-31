@@ -1,6 +1,7 @@
-package com.example.planner.database.user;
+package com.example.planner.repository;
 
 import com.example.planner.common.base.Repository;
+import com.example.planner.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

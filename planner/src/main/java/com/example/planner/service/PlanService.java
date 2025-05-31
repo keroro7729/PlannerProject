@@ -1,4 +1,4 @@
-package com.example.planner.database.plan;
+package com.example.planner.service;
 
 import com.example.planner.common.dto.request.CreatePlanRequestDto;
 import com.example.planner.common.dto.request.DeletePlanRequestDto;
@@ -7,9 +7,10 @@ import com.example.planner.common.dto.response.PageResponseDto;
 import com.example.planner.common.dto.response.PlanResponseDto;
 import com.example.planner.common.exceptions.AccessDeniedException;
 import com.example.planner.common.exceptions.ResourceNotFoundException;
-import com.example.planner.database.deletelog.DeleteLog;
-import com.example.planner.database.deletelog.DeleteLogRepository;
-import com.example.planner.database.user.UserService;
+import com.example.planner.entity.DeleteLog;
+import com.example.planner.entity.Plan;
+import com.example.planner.repository.DeleteLogRepository;
+import com.example.planner.repository.PlanRepository;
 import com.example.planner.utils.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

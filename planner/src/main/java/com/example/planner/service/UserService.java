@@ -1,4 +1,4 @@
-package com.example.planner.database.user;
+package com.example.planner.service;
 
 import com.example.planner.common.dto.request.CreateUserRequestDto;
 import com.example.planner.common.dto.request.DeleteUserRequestDto;
@@ -8,8 +8,10 @@ import com.example.planner.common.dto.response.RegisterResponseDto;
 import com.example.planner.common.dto.response.UserResponseDto;
 import com.example.planner.common.exceptions.LoginFailedException;
 import com.example.planner.common.exceptions.ResourceNotFoundException;
-import com.example.planner.database.deletelog.DeleteLog;
-import com.example.planner.database.deletelog.DeleteLogRepository;
+import com.example.planner.entity.DeleteLog;
+import com.example.planner.entity.User;
+import com.example.planner.repository.DeleteLogRepository;
+import com.example.planner.repository.UserRepository;
 import com.example.planner.utils.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

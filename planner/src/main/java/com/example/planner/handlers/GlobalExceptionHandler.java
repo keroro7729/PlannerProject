@@ -5,7 +5,7 @@ import com.example.planner.common.exceptions.LoginFailedException;
 import com.example.planner.common.exceptions.ResourceNotFoundException;
 import com.example.planner.common.dto.response.ErrorResponse;
 import com.example.planner.common.exceptions.SessionException;
-import com.example.planner.database.deletelog.DeleteLogRepository;
+import com.example.planner.repository.DeleteLogRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

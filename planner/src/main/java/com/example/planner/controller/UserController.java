@@ -6,7 +6,7 @@ import com.example.planner.common.dto.request.LoginRequestDto;
 import com.example.planner.common.dto.request.UpdateUserRequestDto;
 import com.example.planner.common.dto.response.RegisterResponseDto;
 import com.example.planner.common.dto.response.UserResponseDto;
-import com.example.planner.database.user.UserService;
+import com.example.planner.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
